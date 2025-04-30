@@ -1,1 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KeyBash 100</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6f0ff;
+      color: #003366;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #0047ab;
+    }
+    #drill {
+      font-size: 1.5em;
+      margin: 20px 0;
+    }
+    input {
+      font-size: 1.2em;
+      padding: 8px;
+      width: 300px;
+      border: 2px solid #0047ab;
+      border-radius: 5px;
+    }
+    #stats {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>KeyBash 100 - Typing Drill Trainer</h1>
+  <div id="drill">Click below to start...</div>
+  <input type="text" id="input" placeholder="Start typing..." disabled />
+  <div id="stats">
+    <p>Accuracy: <span id="accuracy">0%</span></p>
+    <p>Speed: <span id="wpm">0</span> WPM</p>
+    <p>Drill <span id="count">0</span> / 100</p>
+  </div>
+
+  <script>
+    const drills = [
+      "s s s ; ; ; s ; s ;", "a s d f j k l ;", "s ; s ; s ;",
+      "sdfg jkl;", "s ; s ; a ; d ;", "asdf ;lkj", "s ; s ; s ; s ;",
+      "f j d k s l a ;", "s ; s ; s ; s ; s ;", "f j d k s l ; a",
+      "s ; s ; d ; f ;", "a a s s d d", "j j k k l l", "; ; ; ;",
+      "l ; k ; j ;", "f ; d ; s ;", "s ; s ; s ;", "s ; l ; k ; j ;",
+      "sdf ;lk", "ask ;df", "s ; ; ; s ; s", "s ; s ; s ;", "a s ; l",
+      "a ; s ; d ;", "j ; k ; l ;", "a s d f j k l ;", "l k j ; s d",
+      "d ; d ; d ;", "sdf jkl ;", "s ; s ; s ; s ;", "j k l ; s d",
+      // repeat more drills to make 100
+    ];
+
+    const drillElement = document.getElementById("drill");
+    const input = document.getElementById("input");
+    const accuracyEl = document.getElementById("accuracy");
+    const wpmEl = document.getElementById("wpm");
+    const countEl = document.getElementById("count");
+
+    let current = 0;
+    let correct = 0;
+    let total = 0;
+    let startTime;
+
+    function loadDrill() {
+      if (current >= drills.length) {
+        drillElement.textContent = "🎉 Finished all drills!";
+        input.disabled = true;
+        return;
+      }
+      input.disabled = false;
+      input.value = "";
+      input.focus();
+      drillElement.textContent = drills[current];
+      countEl.textContent = current + 1;
+      startTime = new Date();
+    }
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        const userInput = input.value.trim();
+        const correctText = drills[current].trim();
+        total += correctText.length;
+        for (let i = 0; i < userInput.length; i++) {
+          if (userInput[i] === correctText[i]) correct++;
+        }
+        const accuracy = Math.round((correct / total) * 100);
+        const elapsed = (new Date() - startTime) / 60000;
+        const wordsTyped = userInput.split(" ").length;
+        const wpm = Math.round(wordsTyped / elapsed);
+
+        accuracyEl.textContent = `${accuracy}%`;
+        wpmEl.textContent = `${wpm}`;
+        current++;
+        loadDrill();
+      }
+    });
+
+    window.onload = () => {
+      loadDrill();
+    };
+  </script>
+</body>
+</html>
 
