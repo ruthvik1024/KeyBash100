@@ -1,0 +1,60 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Type100 Practice</title>
+  <style>
+    body {
+      background-color: #e0f0ff;
+      font-family: Arial, sans-serif;
+      color: #003366;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #003366;
+    }
+    .drill {
+      border: 2px solid #99cfff;
+      background-color: #f5fbff;
+      padding: 15px;
+      margin: 10px auto;
+      border-radius: 8px;
+      max-width: 700px;
+    }
+    textarea {
+      width: 100%;
+      height: 60px;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Type100: Accuracy Drill Practice</h1>
+  <p style="text-align:center;">Improve your accuracy with focused drills. Type the sentences below:</p>
+  <div id="drills"></div>
+
+  <script>
+    const drills = [];
+    const weakLetters = ['s', ';', ',', '.', '/', 'c', 'r', 'l', 't', 'e', 'w', 'q', 'z', 'x', 'v', 'b', 'm', 'u', 'o', 'i', 'p', 'n', 'g', 'h', 'j', 'k', 'd', 'a', 'f'];
+
+    for (let i = 1; i <= 100; i++) {
+      const sample = Array.from({ length: 12 }, () => weakLetters[Math.floor(Math.random() * weakLetters.length)]).join('');
+      drills.push(`Drill ${i}: ${sample}`);
+    }
+
+    const drillContainer = document.getElementById('drills');
+    drills.forEach((text, index) => {
+      const div = document.createElement('div');
+      div.className = 'drill';
+      div.innerHTML = `
+        <strong>${text}</strong>
+        <textarea placeholder="Type here..."></textarea>
+      `;
+      drillContainer.appendChild(div);
+    });
+  </script>
+</body>
+</html>
